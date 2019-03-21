@@ -1,0 +1,6 @@
+open localhost
+Simonomi
+password
+mget challenge.ini
+disconnect
+quit
