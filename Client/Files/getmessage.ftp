@@ -1,6 +1,0 @@
-open localhost
-Simonomi
-password
-mget message.txt
-disconnect
-quit

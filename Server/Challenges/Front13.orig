@@ -1,4 +1,4 @@
-public class Front12 {{
+public class Front13 {{
 	public static int[] front11(int[] a, int[] b) {
 	if(a.length != 0 && b.length != 0) {
 		int[] out = {a[0],b[0]};

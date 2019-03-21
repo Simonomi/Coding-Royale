@@ -12,7 +12,7 @@ javac %~2.java > nul 2> nul
 
 if errorlevel 1 goto error
 java %~2 | more > output.txt
-del Front11.class
+del *.class
 fc output.txt "%~3" > nul
 
 if errorlevel 1 goto error

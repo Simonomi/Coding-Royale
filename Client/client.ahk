@@ -35,6 +35,8 @@ Loop {
 		IniRead, item, %A_WorkingDir%\Files\Challenge.ini, Challenge, Name
 		
 		IfNotExist, %A_WorkingDir%\%item%.java
+			FileDelete, *.java
+		IfNotExist, %A_WorkingDir%\%item%.java
 			RunWait, %comspec% /c ""%A_WorkingDir%\Files\get.bat" %Ip% %User% %Pass% Files",, Hide
 		IfNotExist, %A_WorkingDir%\%item%.java
 			FileMove, %A_WorkingDir%\Files\*.java, %A_WorkingDir%\*.*, 0
@@ -98,7 +100,3 @@ FileDelete, *.bomb
 FileDelete, *.java
 FileRemoveDir, Files, 1
 ExitApp
-
-
-
-; FIX RESET

@@ -17,8 +17,7 @@ Loop {
 		If (not submitted = "") {
 			; Submit for %player%
 			IniRead, progress, %A_WorkingDir%\Clients\%player%\Challenge.ini, Challenge, Name
-			IniRead, progressnumber, %A_WorkingDir%\Clients\%player%\Challenge.ini, Challenge, ItemNumber
-			; Check
+			
 			runWait, %comspec% /c ""%A_WorkingDir%\Challenges\check.bat" "%A_WorkingDir%\Clients\%player%\" %progress% "%A_WorkingDir%\Challenges\%progress%goal.txt"",, Hide
 			
 			FileRead, result, result.txt
@@ -27,17 +26,27 @@ Loop {
 			result := StrReplace(result, "`r`n")
 			
 			If (result = "yes") {
-				runWait, %comspec% /c message.bat %player% "Submission accepted`, you have been sent the next challenge.",, Hide
 				FileDelete, %A_WorkingDir%\result.txt
 				submitted := ""
+				
+				bomb = %A_Index%
+				Loop, %number_of_players% {
+					If (not (A_Index = bomb)) {
+						IniRead, tempplayer, Players.ini, Players, Player%A_Index%
+						FileAppend %player%, %A_WorkingDir%\Clients\%tempplayer%\bomb.bomb
+					}
+				}
 				
 				IniRead, old_num, %A_WorkingDir%\Clients\%player%\Challenge.ini, Challenge, ItemNumber
 				IniRead, total, %A_WorkingDir%\Challenges\Challenges.ini, Challenges, TotalNumber
 				new_num := old_num + 1
 				If (new_num > total) {
 					; Win here
+					runWait, %comspec% /c message.bat %player% "You have completed all challenges.",, Hide
 					MsgBox, %player% wins!
+					FileDelete, %A_WorkingDir%\Clients\%player%\*.orig
 				} else {
+					runWait, %comspec% /c message.bat %player% "Submission accepted`, you have been sent the next challenge.",, Hide
 					IniRead, new_item, %A_WorkingDir%\Challenges\Challenges.ini, Challenges, challenge%new_num%
 					IniWrite, %new_num%, %A_WorkingDir%\Clients\%player%\Challenge.ini, Challenge, ItemNumber
 					IniWrite, %new_item%, %A_WorkingDir%\Clients\%player%\Challenge.ini, Challenge, Name
