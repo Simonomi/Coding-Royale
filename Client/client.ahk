@@ -5,36 +5,33 @@ SetWorkingDir %A_ScriptDir%
 ; Imports/copies all .bat files into a "Files folder"
 FileCreateDir %A_WorkingDir%\Files\
 FileInstall get.bat, %A_WorkingDir%\Files\get.bat
-; FileInstall getbomb.bat, %A_WorkingDir%\Files\getbomb.bat
-; FileInstall getmessage.bat, %A_WorkingDir%\Files\getmessage.bat
-; FileInstall getchallenge.bat, %A_WorkingDir%\Files\getchallenge.bat
 FileInstall deletemessage.bat, %A_WorkingDir%\Files\deletemessage.bat
 FileInstall deletebomb.bat, %A_WorkingDir%\Files\deletebomb.bat
 FileInstall submit.bat, %A_WorkingDir%\Files\submit.bat
 
 
 ; All GUI elements
-Gui, Add, Edit, vRefresh x5 y2 w35, 1000
 Gui, Add, Text, x45 y5, IP:
 Gui, Add, Edit, vIp x60 y2 w100,
 Gui, Add, Text, x5 y27, Username:
 Gui, Add, Edit, vUser x60 y25 w100,
 Gui, Add, Text, x5 y50 , Password:
 Gui, Add, Edit, vPass x60 y47 w100 Password*,
+Gui, Add, Text, x30 y74, Refresh:
+Gui, Add, Edit, vRefresh x72 y70 w35, 1000
 Gui, Add, CheckBox, vRun x185 y6, Run
 Gui, Add, Button, x167 y25 w75, Submit
 Gui, Add, Button, x167 y47 w75, Restart
-Gui, Show, w250, Title, Control
+Gui, Add, CheckBox, vOntop x125 y75 Checked, Always on top
+Gui, Show, w250, Coding Royale, Control
 
 ; Sets focous to the "IP" field and declares %item% as ERROR
-GuiControl, Focus, Ip
+; GuiControl, Focus, Ip
 item := "ERROR"
 
 Loop {
 	Gui, Submit, NoHide
 	If %Run% {
-		; IfNotExist, %A_WorkingDir%\Challenge.ini
-			; RunWait, %comspec% /c ""%A_WorkingDir%\Files\getchallenge.bat" %Ip% %User% %Pass% Files",, Hide
 		; Runs get.bat to get the challenge, challenge.ini, bombs, or messages
 		RunWait, %comspec% /c ""%A_WorkingDir%\Files\get.bat" %Ip% %User% %Pass% Files",, Hide
 		
@@ -48,10 +45,6 @@ Loop {
 			IfExist, %A_WorkingDir%\Files\%item%.java
 				FileMove, %A_WorkingDir%\Files\%item%.java, %A_WorkingDir%\%item%.java, 0
 		
-		; IfNotExist, %A_WorkingDir%\Files\bomb.bomb
-			; RunWait, %comspec% /c ""%A_WorkingDir%\Files\getbomb.bat" %Ip% %User% %Pass% Files",, Hide
-		; IfNotExist, %A_WorkingDir%\Files\message.txt
-			; RunWait, %comspec% /c ""%A_WorkingDir%\Files\getmessage.bat" %Ip% %User% %Pass% Files",, Hide
 		
 		; Handles any messages by MsgBox-ing the contents of message.txt
 		exists := 0
@@ -59,9 +52,14 @@ Loop {
 			exists := 1
 		If (exists) {
 			FileRead, words, %A_WorkingDir%\Files\message.txt
-			MsgBox,,Message, %words%, 10
 			FileDelete, %A_WorkingDir%\Files\message.txt
 			RunWait, %comspec% /c ""%A_WorkingDir%\Files\deletemessage.bat" %Ip% %User% %Pass%",, Hide
+			If (words = "You have completed all challenges.`r`n") {
+				MsgBox, You have completed all challenges!
+				Goto, GuiClose
+			} else {
+				MsgBox,,Message, -%words%-, 10
+			}
 		}
 		
 		; Handles any bombs by Send-ing the contents of bomb.bomb
@@ -82,7 +80,16 @@ Loop {
 	GuiControl, Enable, Run
 	If (Ip = "" or User = "" or Pass = "") {
 		GuiControl, Disable, Run
+		GuiControl,, Run, 0
 	}
+	
+	; If Ontop is checked, sets window to alwaysontop
+	If (Ontop) {
+		WinSet, AlwaysOnTop, On, Coding Royale
+	} else {
+		WinSet, AlwaysOnTop, Off, Coding Royale
+	}
+	
 	; Waits for the time in the refresh box (default 1 second)
 	Sleep, %Refresh%
 }

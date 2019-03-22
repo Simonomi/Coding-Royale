@@ -28,6 +28,5 @@ del get.ftp
 
 rename *.orig *.java
 
-if not "%~4"=="" move *.java "%starting%\"
 delete *.orig
 cd "%starting%"
