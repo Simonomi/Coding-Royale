@@ -18,9 +18,10 @@ Loop {
 			; Submit for %player%
 			IniRead, progress, %A_WorkingDir%\Clients\%player%\Challenge.ini, Challenge, Name
 			
-			runWait, %comspec% /c ""%A_WorkingDir%\Challenges\check.bat" "%A_WorkingDir%\Clients\%player%\" %progress% "%A_WorkingDir%\Challenges\%progress%goal.txt"",, Hide
+			runWait, %comspec% /c ""%A_WorkingDir%\check.bat" "%A_WorkingDir%\Clients\%player%\" %progress% "%A_WorkingDir%\Challenges\%progress%goal.txt"",, Hide
 			
 			FileRead, result, result.txt
+			FileDelete, result.txt
 			FileDelete, %A_WorkingDir%\Clients\%player%\submit.txt
 			FileDelete, %A_WorkingDir%\Clients\%player%\*.java
 			result := StrReplace(result, "`r`n")

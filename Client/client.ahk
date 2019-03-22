@@ -58,7 +58,7 @@ Loop {
 				MsgBox, You have completed all challenges!
 				Goto, GuiClose
 			} else {
-				MsgBox,,Message, -%words%-, 10
+				MsgBox,,Message, %words%, 10
 			}
 		}
 		
