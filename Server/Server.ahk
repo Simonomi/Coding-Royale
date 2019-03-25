@@ -2,6 +2,9 @@
 SendMode Input
 SetWorkingDir %A_ScriptDir%
 
+; All GUI elements
+Gui, Add, Button, x5 y5, Reset
+Gui, Show, w250, Server, Control
 
 
 Loop {
@@ -72,3 +75,24 @@ Loop {
 *!r::
 	Reload
 return
+
+ButtonReset:
+	IniRead, number_of_players, Players.ini, Players, TotalPlayers
+	IniRead, first_name, %A_WorkingDir%\Challenges\Challenges.ini, Challenges, challenge1
+	
+	FileRemoveDir, %A_WorkingDir%\Clients, 1
+	FileCreateDir, %A_WorkingDir%\Clients
+	Loop, %number_of_players% {
+		IniRead, player, Players.ini, Players, Player%A_Index%
+		
+		FileCreateDir, %A_WorkingDir%\Clients\%player%
+		FileAppend, [Challenge]`r`nName=%first_name%`r`nItemNumber=1, %A_WorkingDir%\Clients\%player%\Challenge.ini
+		FileCopy, %A_WorkingDir%\Challenges\%first_name%.orig, %A_WorkingDir%\Clients\%player%\%first_name%.orig
+	}
+return
+
+GuiClose:
+RunWait = 0
+Gui, Hide
+FileRemoveDir, Clients, 1
+ExitApp
