@@ -4,12 +4,24 @@ SetWorkingDir %A_ScriptDir%
 
 ; All GUI elements
 Gui, Add, Button, x5 y5, Reset
+Gui, Add, Button, x50 y5, Load New challenges
+Gui, Add, Edit, x5 y30 w200 h100 vPlayers, TotalPlayers=1`r`nPlayer1=
 Gui, Show, w250, Server, Control
 
+IniRead, allplayers, Players.ini, Players
+GuiControl, Text, Players, %allplayers%
 
 Loop {
+	Gui, Submit, NoHide
 	IniRead, number_of_players, Players.ini, Players, TotalPlayers
 	IniRead, number_of_challenges, %A_WorkingDir%\Challenges\Challenges.ini, Challenges, TotalNumber
+	
+	IniRead, playersini, Players.ini, Players
+	if (playersini != Players) {
+		FileDelete, Players.ini
+		FileAppend, [Players]`r`n%Players%, Players.ini
+	}
+	
 	Loop, %number_of_players% {
 		IniRead, player, Players.ini, Players, Player%A_Index%
 		reset := ""
@@ -47,7 +59,8 @@ Loop {
 				If (new_num > total) {
 					; Win here
 					runWait, %comspec% /c message.bat %player% "You have completed all challenges.",, Hide
-					MsgBox, %player% wins!
+					FileAppend, `r`n%player% wins!, winlog.txt
+					runWait, %comspec% /c message.bat %player% "%player% has finished all challenges!",, Hide
 					FileDelete, %A_WorkingDir%\Clients\%player%\*.orig
 				} else {
 					runWait, %comspec% /c message.bat %player% "Submission accepted`, you have been sent the next challenge.",, Hide
@@ -89,6 +102,12 @@ ButtonReset:
 		FileAppend, [Challenge]`r`nName=%first_name%`r`nItemNumber=1, %A_WorkingDir%\Clients\%player%\Challenge.ini
 		FileCopy, %A_WorkingDir%\Challenges\%first_name%.orig, %A_WorkingDir%\Clients\%player%\%first_name%.orig
 	}
+return
+
+ButtonLoadNewChallenges:
+	FileSelectFolder, newFolder, C:\Users\%A_UserName%\,, Choose new folder
+	FileCopyDir, Challenges, Challenges - old
+	FileCopyDir, newFolder, Challenges
 return
 
 GuiClose:
