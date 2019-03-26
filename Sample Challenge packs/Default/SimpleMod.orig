@@ -1,0 +1,15 @@
+public class SimpleMod {
+	public static int simpleMod(a, b) {
+		int temp = a;
+		while(temp > b) {
+			temp -= b;
+		}
+		return temp
+	}
+	public static void main(String[] args) {
+		a = 10;
+		b = 3;
+		out = simpleMod(a, b);
+		System.out.println(out);
+	}
+}

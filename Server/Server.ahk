@@ -5,16 +5,21 @@ SetWorkingDir %A_ScriptDir%
 ; All GUI elements
 Gui, Add, Button, x5 y5, Reset
 Gui, Add, Button, x50 y5, Load New challenges
+Gui, Add, Text, x175 y9 vChallenges, Challenges
 Gui, Add, Edit, x5 y30 w200 h100 vPlayers, TotalPlayers=1`r`nPlayer1=
 Gui, Show, w250, Server, Control
 
 IniRead, allplayers, Players.ini, Players
+IniRead, challengeName, %A_WorkingDir%\Challenges\Challenges.ini, Challenges, Name
 GuiControl, Text, Players, %allplayers%
+GuiControl, Text, Challenges, %challengeName%
 
 Loop {
 	Gui, Submit, NoHide
 	IniRead, number_of_players, Players.ini, Players, TotalPlayers
 	IniRead, number_of_challenges, %A_WorkingDir%\Challenges\Challenges.ini, Challenges, TotalNumber
+	IniRead, newName, %A_WorkingDir%\Challenges\Challenges.ini, Challenges, Name
+	GuiControl, Text, Challenges, %newName%
 	
 	IniRead, playersini, Players.ini, Players
 	if (playersini != Players) {
@@ -105,9 +110,14 @@ ButtonReset:
 return
 
 ButtonLoadNewChallenges:
-	FileSelectFolder, newFolder, C:\Users\%A_UserName%\,, Choose new folder
-	FileCopyDir, Challenges, Challenges - old
-	FileCopyDir, newFolder, Challenges
+	newFolder := 0
+	FileSelectFolder, newFolder, *%A_WorkingDir%\Challenges,, Choose new folder
+	if (newFolder) {
+		IniRead, oldName, %A_WorkingDir%\Challenges\Challenges.ini, Challenges, Name
+		FileCopyDir, Challenges, %A_WorkingDir%\%oldName%
+		FileRemoveDir, %A_WorkingDir%\Challenges, 1
+		FileCopyDir, %newFolder%, %A_WorkingDir%\Challenges
+	}
 return
 
 GuiClose:
