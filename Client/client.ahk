@@ -38,9 +38,6 @@ Loop {
 		; Gets the name of the current challenge and saves it to %item%
 		IniRead, item, %A_WorkingDir%\Files\Challenge.ini, Challenge, Name
 		
-		; If %item%.java doesn't exist, deletes all .java files in same directory as file, then copies %item%.java from Files if it exists
-		IfNotExist, %A_WorkingDir%\%item%.java
-			FileDelete, *.java
 		IfNotExist, %A_WorkingDir%\%item%.java
 			IfExist, %A_WorkingDir%\Files\%item%.java
 				FileMove, %A_WorkingDir%\Files\%item%.java, %A_WorkingDir%\%item%.java, 0
@@ -72,9 +69,6 @@ Loop {
 			FileDelete, %A_WorkingDir%\Files\bomb.bomb
 			RunWait, %comspec% /c ""%A_WorkingDir%\Files\deletebomb.bat" %Ip% %User% %Pass%",, Hide
 		}
-	} else {
-		; Delets all .java files if the script isn't in "run" mode
-		FileDelete, *.java
 	}
 	; Disables "run" mode if any box is empty
 	GuiControl, Enable, Run
@@ -118,6 +112,6 @@ GuiClose:
 RunWait = 0
 Gui, Hide
 Sleep, 5000
-FileDelete, *.java
+FileDelete, %item%.java
 FileRemoveDir, Files, 1
 ExitApp
