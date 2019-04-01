@@ -12,16 +12,7 @@ _TotalPlayers=2<br/>
 Player1=FirstPlayer<br/>
 Player2=SecondPlayer_
 ## Challenge packs
-A _challenge pack_ should contain a Challenges.ini that looks like this:<br/>
-
-[Challenges]<br/>
-Name=Default<br/>
-TotalNumber=3<br/>
-challenge1=SimpleMod<br/>
-challenge2=Front11<br/>
-challenge3=CombineStrings<br/>
-
-As well as a **name**.orig with the flawed java file and a **name**goal.txt with the desired output (check it because whitespace is weird)
+There is now a challenge pack creator that can be used to easily create challenge packs. Select two files for each challenge: a .orig for the unsolved version, and a .java for the solved version. To change the randomly generated order, edit the challenges.ini file.
 ### Note: Built for Windows 10
 
 ## Possible future changes
