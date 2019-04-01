@@ -10,7 +10,7 @@ public class CombineStrings {
 			most = a.length();	
 		}
 		
-		String out = "this should be blank lol"
+		String out = ""
 		for(int i = 0; i < least; i++) {
 			out += a.substring(i, i + 1);
 			out += b.substring(i, i + 1);
