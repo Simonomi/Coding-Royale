@@ -16,6 +16,4 @@ There is now a challenge pack creator that can be used to easily create challeng
 ### Note: Built for Windows 10
 
 ## Possible future changes
-1. Change challenges to use "solved" version instead of **name**goal.txt
-2. Make seperate challenge pack creator (xor with #1)
-3. Client.exe delete java files (from game only)
+1. Client.exe delete java files (from game only)
