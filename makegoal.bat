@@ -9,6 +9,7 @@ cd "%~1"
 javac %~2.java > nul 2> nul
 
 java %~2 | more > %~2goal.txt
+if errorlevel 1 goto error
 del *.class
 
 

@@ -98,6 +98,7 @@ return
 ; When the restart button is pressed, delete the current .java file (then get gets the original)
 ButtonRestart:
 	FileDelete, %item%.java
+	MsgBox,,, Close the file and open it agian to restart, 5
 return
 
 
