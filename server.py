@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from http.server import BaseHTTPRequestHandler, HTTPServer
+# from os import system
 import os.path
 import subprocess
 import glob, os
@@ -83,6 +84,7 @@ def process(inputData):
 	parsedData = inputData.split('|')
 	if not parsedData[0] in getPlayers():
 		addPlayer(parsedData[0])
+		print("	~" + parsedData[0] + ' has joined!')
 		return getChallenge(1)
 	elif parsedData[1] == "GetFile":
 		return getChallenge(getPlayerProgress(parsedData[0]))
@@ -127,10 +129,29 @@ def run(server_class=HTTPServer, handler_class=S):
 	global challengePack
 	challengePacks = glob.glob("*.chp")
 	if len(challengePacks) != 1:
-		print('Please move one challenge pack (.chp) to the current directory')
-		exit
+		if len(challengePacks) > 1:
+			i = 1
+			for x in challengePacks:
+				print("(" + str(i) + ") " + str(x))
+				i += 1
+			choice = int(input("Pick a file: "))
+			i = 1
+			for x in challengePacks:
+				if i == choice:
+					challengePack = x
+					os.system('cls')
+					os.system('title Coding Royale Server')
+					print("Challenge pack: " + challengePack)
+				i += 1
+		else:
+			print('Please move a challenge pack (.chp) to the current directory')
+			input("Press Enter to continue...")
+			exit()
 	else:
 		challengePack = challengePacks[0]
+		os.system('cls')
+		os.system('title Coding Royale Server')
+		print("Challenge pack: " + challengePack)
 	httpd = server_class(('', 80), handler_class)
 	file = open("players.conf","w+")
 	file.write("")
