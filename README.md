@@ -9,9 +9,6 @@ Just download and run the .exe file in the Releases page and fill out the blanks
 For the server, just run the .exe file in Releases and it should set itself up. You must have at least one working challenge pack (_.chp_ file) in the same directory.
 
 ## Challenge packs
-Soon I'm going to add a challenge pack creater, currently it's difficult to make your own challenge packs, but if you want to, you can use the Default.chp for reference. Note: do not use *name* anywhere in your challenge packs or it will not work properly.
+The challenge pack creator can be used by running the executable in the latest release and following the on-screen instructions. The original files are the working *.java* files that produce the desired output when run and the changed files are the files that will be sent to the clients durring gameplay. Both types of files should have the same filename with a *.java* extension. It is recomended to put both types of files in their own directories. **Note: The use of \*name\* or \*newline\* in challenges may cause issues.**
 
-### Note: Built for Windows 10
-
-## Probable future changes
-1. Challenge pack creator
+### Built for Windows 10
