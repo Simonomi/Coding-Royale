@@ -12,3 +12,6 @@ For the server, just run the .exe file in Releases and it should set itself up. 
 The challenge pack creator can be used by running the executable in the latest release and following the on-screen instructions. The original files are the working *.java* files that produce the desired output when run and the changed files are the files that will be sent to the clients durring gameplay. Both types of files should have the same filename with a *.java* extension. It is recomended to put both types of files in their own directories. **Note: The use of \*name\* or \*newline\* in challenges may cause issues.**
 
 ### Built for Windows 10
+
+## To do (possibly):
+* Add icons
