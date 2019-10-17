@@ -14,4 +14,4 @@ The challenge pack creator can be used by running the executable in the latest r
 ### Built for Windows 10
 
 ## To do (possibly):
-* Add icons
+* Add player icons
